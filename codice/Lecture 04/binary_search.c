@@ -95,13 +95,88 @@ float test_search(int (*f) (int*, int, int), int size, int search_size)
 }
 
 
+int reorder_array(int *a, int *t, int len, int k, int i){
+
+	if (k<=len){
+		i = reorder_array(a,t, len, 2*k, i);
+		t[k] = a[i];
+		i = *(t+1);
+		i = reorder_array(a,t,len, 2*k+1, i);
+	}
+	return i;
+}
+
+
+int test_reordering(int n){
+	int *a = (int *)malloc(n *sizeof(int));
+	int *t = (int *)malloc((n+1) *sizeof(int));
+	for(int i = 0; i < n; i++){
+		a[i] = i;
+	}
+	reorder_array(a,t,n,1,0);
+	for(int i = 1; i < n; i++){
+		printf("%d", t[i]);
+	}
+	printf("\n");
+	free(a);
+	free(t);
+}
+
+
+int search_reorderer(int *v, int len, int key)
+{
+	int i = 1;
+	int pos = -1;
+	while (1 <= len){
+		if(v[i] == key){
+			pos = i;
+		}
+		// possibilità di fare branchless togliendo else
+		if(v[i] < key){
+			i = 2*i+1;
+		}
+		// branchless tramite la comparazione
+		int q = (key > v[i]);
+		i = 2*i + q;
+	}
+}
+
+
+int search_reorderer_prefetch(int *v, int len, int key)
+{
+	int i = 1;
+	int pos = -1;
+	while (1 <= len){
+		if(v[i] == key){
+			pos = i;
+		}
+
+    // caso peggiore i * 16
+    __builtin_prefetch(v+i*16);
+
+    // caricami ultimo indirizzo nella cache 
+     __builtin_prefetch(v + i*16 + 15);
+
+		// branchless tramite la comparazione
+		int q = (key > v[i]);
+		i = 2*i + q;
+	}
+}
+
+
+
+
+
+
+
 int main(int argc, char * argv[])
 {
   srand(time(NULL));
-  int search_size = 10000;
+  int search_size = 1000;
   int exp_min = 10;
   int exp_max = 23;
-  
+
+
   printf("\tw/ branches\tbranchless\tb.less pref.\n");
   for (int i = exp_min; i <= exp_max; i++) {
     float t;
@@ -111,6 +186,10 @@ int main(int argc, char * argv[])
     t = test_search(binary_search_branchless, 1<<i, search_size);
     printf("%f\t", t);
     t = test_search(binary_search_branchless_prefetch, 1<<i, search_size);
+    printf("%f\n", t);
+
+    t = test_search(search_reorderer_prefetch, 1<<i, search_size);
+
     printf("%f\n", t);
   }
   return 0;
