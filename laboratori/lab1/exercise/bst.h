@@ -21,6 +21,7 @@ typedef struct _tree_node *t_node;
 struct _bst {
   t_node root;
 };
+
 typedef struct _bst *bst;
 
 // Prototipi delle funzioni
