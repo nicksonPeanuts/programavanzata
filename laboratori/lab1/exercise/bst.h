@@ -6,7 +6,7 @@
 #include <time.h>
 #include <errno.h>
 
-// 1. Definiamo prima il nodo
+// definiamo il nodo
 struct _tree_node {
   int key;
   void *value;
@@ -17,13 +17,13 @@ struct _tree_node {
 
 typedef struct _tree_node *t_node;
 
-// 2. Poi definiamo l'albero (che usa t_node)
+// definiamo albero
 struct _bst {
   t_node root;
 };
 typedef struct _bst *bst;
 
-// 3. Prototipi delle funzioni
+// Prototipi delle funzioni
 t_node make_t_node(void);
 void delete_t_node(t_node tmp);
 bst make_bst(void);
