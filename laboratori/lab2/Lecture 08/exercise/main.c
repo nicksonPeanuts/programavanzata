@@ -61,6 +61,18 @@ void check_merge(void (* m) (int *, int, int *, int, int *))
 int main(int argc, char * argv[])
 {
   srand(time(NULL));
-  // TODO
+  // FARE IL TEST DEI DUE ALGORITMI  
+
+  for(int i = 1000; i <= 20000; i+=1000){
+    
+    float result1 = avg_test_merge(i, merge, 10);
+    float result2 = avg_test_merge(i, merge_branchless, 10);
+
+    printf("%d\t", i);
+    printf("tempo medio di merge: %f\t", result1);
+    printf("tempo di esecuzione di merge branchless: %f\t", result2);
+    printf("\n");
+  }
+
   return 0;
 }
