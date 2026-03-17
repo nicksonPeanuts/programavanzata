@@ -1,23 +1,15 @@
-#ifndef BST_H
-#define BST_H
+#ifndef bst_h
+#define bst_h
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <errno.h>
 
-// definiamo il nodo
-struct _tree_node {
-  int key;
-  void *value;
-  struct _tree_node *left;
-  struct _tree_node *right;
-  struct _tree_node *parent;
-};
+#include "node.h"
 
-typedef struct _tree_node *t_node;
 
-// definiamo albero
+// definiamo albero, con un puntatore alla radice dell'albero
 struct _bst {
   t_node root;
 };

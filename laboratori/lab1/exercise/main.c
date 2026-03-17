@@ -27,6 +27,7 @@ void r_test (int n)
   bst t = make_bst();
   printf("Aggiunta dei nodi\n");
   for (;i < n; i++) {
+
     t_node n = make_t_node();
     n->key = rand();
     bst_insert(t, n);
