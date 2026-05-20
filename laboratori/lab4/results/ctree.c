@@ -18,35 +18,34 @@ ctree make_cnode(int key, float val)
 
 ctree cinsert(ctree t, int key, float val)
 {
-  if(t == NULL){
-    return make_cnode(key,val);
+  if (t == NULL) {
+    return make_cnode(key, val);
   }
-
-  if(t->first_free < N){
+  if (t->first_free < N) {
     int k = key;
     float v = val;
-    for(int i = 0; i < t->first_free; i++){
-      if(key == t->key[i]){
-        t->val[i] = val;
-        return t;
+    for (int i = 0; i < t->first_free; i++) {
+      if (key == t->key[i]) {
+	t->val[i] = val;
+	return t;
       }
-      if(t->key[i] > k){
-        int tmp = k;
-        k = t->key[i];
-        float ftmp = v;
-        v = t->val[i];
-        t->val[i] = ftmp;
+      if (t->key[i] > k) {
+	int tmp = k;
+	k = t->key[i];
+	t->key[i] = tmp;
+	float ftmp = v;
+	v = t->val[i];
+	t->val[i] = ftmp;
       }
     }
     t->key[t->first_free] = k;
     t->val[t->first_free] = v;
-    // la posizione libera aumenta di 1
     t->first_free++;
     return t;
   }
   int i = 0;
-  while(i < N && key >= t->key[i]){
-    if(key == t->key[i]){
+  while (i < N && key >= t->key[i]) {
+    if (key == t->key[i]) {
       t->val[i] = val;
       return t;
     }
@@ -58,21 +57,18 @@ ctree cinsert(ctree t, int key, float val)
 
 bool csearch(ctree t, int key, float * val)
 {
-  if(t == NULL){
+  if (t == NULL) {
     return false;
   }
-
   int i = 0;
-  while(i < t->first_free && key >= t->key[i]){
-    if(key == t->key[i]){
+  while (i < t->first_free && key >= t->key[i]) {
+    if (key == t->key[i]) {
       *val = t->val[i];
       return true;
     }
     i++;
   }
   return csearch(t->children[i], key, val);
-
-  return false;
 }
 
 void print_ctree(ctree t)
@@ -81,10 +77,10 @@ void print_ctree(ctree t)
     printf(".");
     return;
   }
-
   printf("(");
   for (int i = 0; i < t->first_free; i++) {
     print_ctree(t->children[i]);
+    // printf(" %d:%f ", t->key[i], t->val[i]);
     printf(" %d ", t->key[i]);
   }
   print_ctree(t->children[N]);
