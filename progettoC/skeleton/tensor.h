@@ -32,6 +32,9 @@ typedef struct {
     void *mmap_ptr;
 } Tensor;
 
+
+// FUNZIONI SUI TENSORI
+
 int get_num_elements(Tensor *t);
 Tensor* create_tensor(int ndim, int32_t *shape);
 void retain_tensor(Tensor *t);

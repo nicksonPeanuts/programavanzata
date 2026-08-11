@@ -15,13 +15,17 @@
 /*
  * handle_token: Interpreta il singolo token o smista all'operazione corretta.
  */
+
+
 void handle_token(char *token, FILE *source) {
+    // se il token è una parentesi quadra allora è un tensore
     if (strcmp(token, "[") == 0) {
         int cap = 16;
         float *buf = malloc(cap * sizeof(float));
         int count = 0;
         char inner[1024];
         while (fscanf(source, "%s", inner) != EOF) {
+            // chiudiamo quando troviamo parentesi quadra chiusa
             if (strcmp(inner, "]") == 0) break;
             if (count >= cap) {
                 cap *= 2;
@@ -47,7 +51,11 @@ void handle_token(char *token, FILE *source) {
         }
         str[len - 1] = '\0';
         push_string(strdup(str));
-    } else if (strcmp(token, "+") == 0) { op_binary('+'); }
+
+    
+    } 
+    // operazioni aritmetiche e logiche
+    else if (strcmp(token, "+") == 0) { op_binary('+'); }
     else if (strcmp(token, "-") == 0) { op_binary('-'); }
     else if (strcmp(token, "*") == 0) { op_binary('*'); }
     else if (strcmp(token, "<") == 0) { op_binary('<'); }
@@ -105,6 +113,5 @@ int main(int argc, char *argv[]) {
 
     fclose(source);
 
-    // TODO: Gestire i memory leaks per le risorse rimaste sullo stack a fine programma
     return 0;
 }
