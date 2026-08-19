@@ -8,7 +8,6 @@
 #define STACK_H
 
 #include "tensor.h"
-
 #define MAX_STACK 1024
 
 typedef enum { TENSOR, STRING } TokenType;
