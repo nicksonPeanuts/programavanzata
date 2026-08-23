@@ -1,5 +1,5 @@
 
-from prog import VirtualVRAM
+from classi import VirtualVRAM
 import numpy as np
 import json
 
