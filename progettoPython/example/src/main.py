@@ -3,7 +3,10 @@
 # Matricola: SM3201546
 
 import sys
-from classi import Palette, VirtualVRAM, SceneParser, RenderingPipeline
+from palette import Palette
+from sceneParser import SceneParser
+from virtualRAM import VirtualVRAM
+from rendering_pipeline import RenderingPipeline
 
 def main():
     """
@@ -53,13 +56,14 @@ def main():
     # Esecuzione della pipeline di rendering e salvataggio dell'immagine
     try:
         pipeline = RenderingPipeline(palette, vram, scene)
-        pipeline.save_png(output_path)
+        pipeline.run_rendering(output_path)
     except Exception as e:
         raise RuntimeError(f"Errore durante l'esecuzione del renderer: {e}")
 
     print("Rendering completato con successo!")
     return 0
 
+# entry point
 if __name__ == "__main__":
     try:
         sys.exit(main())
